@@ -50,7 +50,8 @@ export const HistoryView: React.FC<HistoryViewProps> = ({
           </div>
         </div>
 
-        <table className="data-table">
+        <div className="table-responsive">
+          <table className="data-table">
           <thead>
             <tr>
               <th>Nomor Invoice</th>
@@ -146,6 +147,7 @@ export const HistoryView: React.FC<HistoryViewProps> = ({
           </tbody>
         </table>
       </div>
+    </div>
 
       {/* Modal Dialog Void Transaksi */}
       {selectedSaleForVoid && (

@@ -123,7 +123,7 @@ export const CustomerDebtView: React.FC<CustomerDebtViewProps> = ({
             </div>
           </div>
           <div className="kpi-bottom">
-            <div className="kpi-value tabular" style={{ fontSize: '26px', color: 'var(--danger)' }}>
+            <div className="kpi-value tabular" style={{ color: 'var(--danger)' }}>
               {formatRupiah(totalOutstanding)}
             </div>
             <div className="kpi-delta negative">Wajib Ditagih</div>

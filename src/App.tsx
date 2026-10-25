@@ -326,6 +326,88 @@ export const App: React.FC = () => {
     },
   ];
 
+  // Mobile Bottom Bar Navigation Items (Thumb Zone friendly per PRD & antislop)
+  const isKasirRole = userRole === 'kasir';
+  const mobileNavItems = isKasirRole
+    ? [
+        {
+          id: 'pos',
+          label: 'Kasir',
+          icon: <IconCart size={20} />,
+          isActive: activeTab === 'pos',
+          onClick: () => setActiveTab('pos'),
+        },
+        {
+          id: 'products',
+          label: 'Stok',
+          icon: <IconBox size={20} />,
+          isActive: activeTab === 'products',
+          onClick: () => setActiveTab('products'),
+        },
+        {
+          id: 'returns',
+          label: 'Return',
+          icon: <IconReturn size={20} />,
+          isActive: activeTab === 'returns',
+          onClick: () => setActiveTab('returns'),
+        },
+        {
+          id: 'customer_debt',
+          label: 'Hutang',
+          icon: <IconCreditCard size={20} />,
+          isActive: activeTab === 'customer_debt',
+          onClick: () => setActiveTab('customer_debt'),
+        },
+        {
+          id: 'more',
+          label: 'Menu',
+          icon: <IconMenu size={20} />,
+          isActive: isMobileMenuOpen || activeTab === 'cash_balance' || activeTab === 'store_settings',
+          onClick: () => setIsMobileMenuOpen(true),
+        },
+      ]
+    : [
+        {
+          id: 'dashboard',
+          label: 'Dashboard',
+          icon: <IconGrid size={20} />,
+          isActive: activeTab === 'dashboard',
+          onClick: () => setActiveTab('dashboard'),
+        },
+        {
+          id: 'pos',
+          label: 'Kasir',
+          icon: <IconCart size={20} />,
+          isActive: activeTab === 'pos',
+          onClick: () => setActiveTab('pos'),
+        },
+        {
+          id: 'products',
+          label: 'Stok',
+          icon: <IconBox size={20} />,
+          isActive: activeTab === 'products',
+          onClick: () => setActiveTab('products'),
+        },
+        {
+          id: 'reports',
+          label: 'Laporan',
+          icon: <IconFileText size={20} />,
+          isActive: activeTab === 'reports',
+          onClick: () => setActiveTab('reports'),
+        },
+        {
+          id: 'more',
+          label: 'Menu',
+          icon: <IconMenu size={20} />,
+          isActive:
+            isMobileMenuOpen ||
+            ['returns', 'customer_debt', 'cash_balance', 'store_settings', 'user_management'].includes(
+              activeTab
+            ),
+          onClick: () => setIsMobileMenuOpen(true),
+        },
+      ];
+
   return (
     <div className={`app-container ${isSidebarCollapsed ? 'collapsed' : ''}`}>
       {/* Sidebar Navigasi Kasir Khalif (9 Menu Wajib) */}
@@ -523,10 +605,6 @@ export const App: React.FC = () => {
           </div>
 
           <div className="topbar-status-section">
-            <div className="status-badge-live">
-              <span className="status-dot"></span>
-              <span className="status-text">Sistem Online</span>
-            </div>
             <div className="system-clock-badge">
               <span className="clock-time tabular">{currentTime}</span>
             </div>
@@ -619,6 +697,21 @@ export const App: React.FC = () => {
           )}
         </main>
       </div>
+
+      {/* Mobile Bottom Navigation Bar (Thumb Friendly) */}
+      <nav className="mobile-bottom-nav" aria-label="Navigasi Menu Mobile">
+        {mobileNavItems.map((item) => (
+          <button
+            type="button"
+            key={item.id}
+            className={`bottom-nav-item ${item.isActive ? 'active' : ''}`}
+            onClick={item.onClick}
+          >
+            <span className="bottom-nav-icon">{item.icon}</span>
+            <span className="bottom-nav-label">{item.label}</span>
+          </button>
+        ))}
+      </nav>
     </div>
   );
 };

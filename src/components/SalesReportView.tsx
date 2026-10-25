@@ -115,7 +115,7 @@ export const SalesReportView: React.FC<SalesReportViewProps> = ({
             </div>
           </div>
           <div className="kpi-bottom">
-            <div className="kpi-value tabular" style={{ fontSize: '26px' }}>
+            <div className="kpi-value tabular">
               {formatRupiah(totalOmzet)}
             </div>
             <div className="kpi-delta positive">Berdasarkan Filter Aktif</div>

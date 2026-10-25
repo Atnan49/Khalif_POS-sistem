@@ -149,11 +149,8 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ userRole }) => {
               </span>
               <span
                 style={{
-                  fontSize: 10,
-                  backgroundColor: 'var(--accent-deep)',
-                  color: 'var(--text-primary)',
-                  padding: '3px 8px',
-                  borderRadius: 'var(--radius-pill)',
+                  fontSize: 11,
+                  color: 'var(--accent)',
                   fontWeight: 600,
                 }}
               >

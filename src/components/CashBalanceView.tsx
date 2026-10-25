@@ -110,7 +110,7 @@ export const CashBalanceView: React.FC<CashBalanceViewProps> = ({
             </div>
           </div>
           <div className="kpi-bottom">
-            <div className="kpi-value tabular" style={{ fontSize: '28px', color: 'var(--accent)' }}>
+            <div className="kpi-value tabular" style={{ color: 'var(--accent)' }}>
               {formatRupiah(saldoLaci)}
             </div>
             <div className="kpi-delta positive">Wajib Sesuai Fisik Laci</div>
@@ -125,7 +125,7 @@ export const CashBalanceView: React.FC<CashBalanceViewProps> = ({
             </div>
           </div>
           <div className="kpi-bottom">
-            <div className="kpi-value tabular" style={{ fontSize: '24px' }}>
+            <div className="kpi-value tabular">
               {formatRupiah(totalMasuk)}
             </div>
             <div className="kpi-delta">Modal Awal + Penjualan</div>
@@ -140,7 +140,7 @@ export const CashBalanceView: React.FC<CashBalanceViewProps> = ({
             </div>
           </div>
           <div className="kpi-bottom">
-            <div className="kpi-value tabular" style={{ fontSize: '24px', color: 'var(--danger)' }}>
+            <div className="kpi-value tabular" style={{ color: 'var(--danger)' }}>
               {formatRupiah(totalKeluar)}
             </div>
             <div className="kpi-delta negative">Operasional & Setoran</div>

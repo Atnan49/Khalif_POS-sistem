@@ -204,7 +204,8 @@ export const ProductManagementView: React.FC<ProductManagementViewProps> = ({
           </div>
         )}
 
-        <table className="data-table">
+        <div className="table-responsive">
+          <table className="data-table">
           <thead>
             <tr>
               <th>Barcode & SKU</th>
@@ -296,6 +297,7 @@ export const ProductManagementView: React.FC<ProductManagementViewProps> = ({
             }))}
           </tbody>
         </table>
+        </div>
       </div>
 
       {/* Modal Tambah Produk */}

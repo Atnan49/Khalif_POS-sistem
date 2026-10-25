@@ -141,7 +141,7 @@ export const ReturnBarangView: React.FC<ReturnBarangViewProps> = ({
             </div>
           </div>
           <div className="kpi-bottom">
-            <div className="kpi-value tabular" style={{ fontSize: '24px' }}>
+            <div className="kpi-value tabular">
               {formatRupiah(returns.reduce((acc, curr) => acc + curr.refundAmount, 0))}
             </div>
             <div className="kpi-delta">Pengembalian ke Kasir</div>
@@ -156,7 +156,7 @@ export const ReturnBarangView: React.FC<ReturnBarangViewProps> = ({
             </div>
           </div>
           <div className="kpi-bottom">
-            <div className="kpi-value" style={{ fontSize: '20px' }}>2x24 Jam</div>
+            <div className="kpi-value">2x24 Jam</div>
             <div className="kpi-delta positive">Wajib Nota Asli</div>
           </div>
         </div>

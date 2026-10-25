@@ -33,6 +33,7 @@ export const CashierView: React.FC<CashierViewProps> = ({
   const [laserInput, setLaserInput] = useState<string>('');
   const [lastScannedMsg, setLastScannedMsg] = useState<string | null>(null);
   const [showReceiptModal, setShowReceiptModal] = useState<Sale | null>(null);
+  const [mobileActiveView, setMobileActiveView] = useState<'catalog' | 'cart'>('catalog');
 
   const laserInputRef = useRef<HTMLInputElement>(null);
 
@@ -156,12 +157,38 @@ export const CashierView: React.FC<CashierViewProps> = ({
     setShowReceiptModal(newSale);
     setCart([]);
     setCashReceived('');
+    setMobileActiveView('catalog');
   };
 
   return (
     <div className="cashier-layout">
+      {/* Mobile Mode Switcher: Katalog vs Keranjang (Thumb friendly) */}
+      <div className="cashier-mobile-tabs" role="tablist" aria-label="Tampilan Kasir Mobile">
+        <button
+          type="button"
+          role="tab"
+          aria-selected={mobileActiveView === 'catalog'}
+          className={`cashier-mobile-tab-btn ${mobileActiveView === 'catalog' ? 'active' : ''}`}
+          onClick={() => setMobileActiveView('catalog')}
+        >
+          <IconCamera size={16} />
+          <span>Katalog & Scan</span>
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={mobileActiveView === 'cart'}
+          className={`cashier-mobile-tab-btn ${mobileActiveView === 'cart' ? 'active' : ''}`}
+          onClick={() => setMobileActiveView('cart')}
+        >
+          <IconCart size={16} />
+          <span>Keranjang ({totalItemsCount})</span>
+          {cartTotal > 0 && <span className="tab-pill-amount tabular">{formatRupiah(cartTotal)}</span>}
+        </button>
+      </div>
+
       {/* Kolom Kiri: Scanner Kamera/Laser & Katalog Produk */}
-      <div className="catalog-section">
+      <div className={`catalog-section ${mobileActiveView === 'cart' ? 'mobile-hidden' : ''}`}>
         {/* Panel Kontrol Scanner Hibrida */}
         <div className="card scanner-card">
           <div className="scanner-header">
@@ -202,23 +229,25 @@ export const CashierView: React.FC<CashierViewProps> = ({
 
           {/* Area Kamera HP dengan ROI 92% x 46% sesuai PRD */}
           {scanMode === 'camera' ? (
-            <div className="camera-viewport">
-              <div className="camera-grid-bg" />
-              <div className="camera-roi">
-                <div className="roi-laser-line" />
-                <span
-                  style={{
-                    position: 'absolute',
-                    top: 6,
-                    fontSize: 10,
-                    color: 'var(--accent)',
-                    fontWeight: 600,
-                    letterSpacing: '0.04em',
-                    textTransform: 'uppercase',
-                  }}
-                >
-                  Area Baca Tajam (ROI 92% × 46%)
-                </span>
+            <div className="camera-panel">
+              <div className="camera-viewport">
+                <div className="camera-grid-bg" />
+                <div className="camera-roi">
+                  <div className="roi-laser-line" />
+                  <span
+                    style={{
+                      position: 'absolute',
+                      top: 6,
+                      fontSize: 10,
+                      color: 'var(--accent)',
+                      fontWeight: 700,
+                      letterSpacing: '0.04em',
+                      textTransform: 'uppercase',
+                    }}
+                  >
+                    Area Baca Tajam (ROI 92% × 46%)
+                  </span>
+                </div>
               </div>
 
               <div className="camera-controls">
@@ -260,7 +289,7 @@ export const CashierView: React.FC<CashierViewProps> = ({
                 className="search-input"
                 style={{
                   backgroundColor: 'var(--surface-raised)',
-                  borderRadius: 'var(--radius-pill)',
+                  borderRadius: 10,
                   padding: '10px 16px',
                   height: 44,
                 }}
@@ -268,7 +297,7 @@ export const CashierView: React.FC<CashierViewProps> = ({
               <button
                 type="submit"
                 className="btn-primary"
-                style={{ height: 44, padding: '0 20px' }}
+                style={{ height: 44, padding: '0 20px', borderRadius: 10 }}
               >
                 Input
               </button>
@@ -279,10 +308,10 @@ export const CashierView: React.FC<CashierViewProps> = ({
             <div
               style={{
                 marginTop: 10,
-                padding: '6px 14px',
-                backgroundColor: 'var(--accent-deep)',
-                color: 'var(--text-primary)',
-                borderRadius: 'var(--radius-pill)',
+                padding: '8px 14px',
+                backgroundColor: 'rgba(80, 160, 124, 0.15)',
+                color: 'var(--accent)',
+                borderRadius: 10,
                 fontSize: 12,
                 fontWeight: 600,
                 display: 'flex',
@@ -405,7 +434,20 @@ export const CashierView: React.FC<CashierViewProps> = ({
       </div>
 
       {/* Kolom Kanan: Panel Keranjang Krem (`#C9BBA7`) dengan Teks Hitam per design.md Section 9 */}
-      <div id="cashier-cart-panel" className="cart-panel">
+      <div id="cashier-cart-panel" className={`cart-panel ${mobileActiveView === 'catalog' ? 'mobile-hidden' : ''}`}>
+        <div className="mobile-cart-back-row">
+          <button
+            type="button"
+            className="mobile-back-catalog-btn"
+            onClick={() => {
+              setMobileActiveView('catalog');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+          >
+            ← Kembali Pilih Mainan Lain di Katalog
+          </button>
+        </div>
+
         <div className="cart-header">
           <h2 className="cart-title">Keranjang Kasir</h2>
           <span className="cart-count-badge tabular">{totalItemsCount} item</span>
@@ -586,12 +628,13 @@ export const CashierView: React.FC<CashierViewProps> = ({
         </div>
       )}
 
-      {cart.length > 0 && (
+      {cart.length > 0 && mobileActiveView === 'catalog' && (
         <button
           type="button"
           className="mobile-cart-float-bar"
           onClick={() => {
-            document.getElementById('cashier-cart-panel')?.scrollIntoView({ behavior: 'smooth' });
+            setMobileActiveView('cart');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
         >
           <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
